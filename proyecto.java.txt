@@ -1,0 +1,90 @@
+import java.io.*;
+import java.util.*;
+
+public class GestionAlumnos { //1
+    private static Map<String, String> alumnos = new HashMap<>(); //1
+
+    public static void main(String[] args) { //2
+        Scanner scanner = new Scanner(System.in);//2
+        int opcion;
+
+        System.out.println("¡Bienvenido a la gestión de alumnos! Por favor, selecciona una opción del menú:");
+
+        do {//2
+            System.out.println("\nMenú:");//3
+            System.out.println("1. Ingresar alumno");
+            System.out.println("2. Buscar alumno");
+            System.out.println("3. Eliminar alumno");
+            System.out.println("4. Mostrar todos los alumnos");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el buffer
+
+            switch (opcion) {//3
+                case 1:
+                    ingresarAlumno(scanner);
+                    break;
+                case 2:
+                    buscarAlumno(scanner);
+                    break;
+                case 3:
+                    eliminarAlumno(scanner);
+                    break;
+                case 4:
+                    mostrarTodosLosAlumnos();
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    System.out.println("¡Hasta luego!");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while (opcion != 5);//2-3-5
+
+        scanner.close();
+    }
+
+    private static void ingresarAlumno(Scanner scanner) {//4
+        System.out.print("Ingrese el carnet del alumno: ");
+        String carnet = scanner.nextLine();
+        System.out.print("Ingrese el nombre completo del alumno: ");
+        String nombre = scanner.nextLine();
+        alumnos.put(carnet, nombre);
+        System.out.println("Alumno ingresado exitosamente: Carnet: " + carnet + ", Nombre: " + nombre);
+    }
+
+    private static void buscarAlumno(Scanner scanner) {
+        System.out.print("Ingrese el carnet del alumno a buscar: ");
+        String carnet = scanner.nextLine();
+        if (alumnos.containsKey(carnet)) {
+            String nombreEncontrado = alumnos.get(carnet);
+            System.out.println("Alumno encontrado: Carnet: " + carnet + ", Nombre: " + nombreEncontrado);
+        } else {
+            System.out.println("Alumno no encontrado, no se puede Mostrar");
+        }
+    }
+
+    private static void eliminarAlumno(Scanner scanner) {
+        System.out.print("Ingrese el carnet del alumno a eliminar: ");
+        String carnet = scanner.nextLine();
+        if (alumnos.containsKey(carnet)) {
+            String nombreEliminado = alumnos.remove(carnet);
+            System.out.println("Alumno eliminado exitosamente: Carnet: " + carnet + ", Nombre: " + nombreEliminado);
+        } else {
+            System.out.println("Alumno no encontrado, no se puede Eliminar");
+        }
+    }
+
+    private static void mostrarTodosLosAlumnos() {
+        if (alumnos.isEmpty()) {
+            System.out.println("No hay alumnos registrados.");
+        } else {
+            System.out.println("Lista de alumnos:");
+            for (Map.Entry<String, String> entry : alumnos.entrySet()) {
+                System.out.println("Carnet: " + entry.getKey() + ", Nombre: " + entry.getValue());
+            }
+        }
+    }
+}
